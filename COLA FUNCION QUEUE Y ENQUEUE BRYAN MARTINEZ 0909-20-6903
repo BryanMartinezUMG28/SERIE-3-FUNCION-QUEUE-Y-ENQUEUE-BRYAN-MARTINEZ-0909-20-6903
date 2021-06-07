@@ -1,0 +1,202 @@
+//BRYAN ALEXANDER MARTINEZ GUZMAN 0909-20-6903
+//PROGRAMACION I - SERIE III - COLA - Queue y Enqueue
+
+
+#include <iostream>
+#include <string.h>
+#include <stdlib.h>
+
+using namespace std;
+
+//Estructura de la agrupacion de la variable COLA
+
+struct Cola{
+	int inicio;
+	int ultimo;
+	int capacidad;
+	char *xyz;
+	
+};
+
+//INSTRUCCIONES SOBRE LA COLA 
+
+struct Cola* creat(int capacidad){
+	
+	//Su utilizacion sera para saber cuanta memoria a utilizar 
+	struct Cola* cola = (struct Cola*)malloc(sizeof(struct Cola)); 
+	
+	//El asignar el tamaño (la capacidad) de la cola
+	cola->capacidad = capacidad; 
+	
+	//Para poder iniciar con el valor asignado en lo ultimo de la cola
+	cola->inicio = -1; 
+	
+	//Iniciar con el valor a finalizar la cola
+	cola->ultimo=0;
+	
+	//Arreglo para almacenar los datos ingresados
+	cola->xyz = (char*)malloc(cola->capacidad*sizeof(char)); 
+	return cola;
+}
+
+//FUNCION PARA NOTAR SI LA COLA ESTA VACIA, DE SER ASI EL POGRAMA SE CIERRA
+int empty(Cola q){
+	
+	if (q.ultimo==0) 
+		return (1);
+	
+ return(0);
+}
+
+//FUNCION AL LLENAR LA COLA
+int full(Cola *q){
+	if (q->ultimo==q->capacidad) return (1);
+	
+ return(0);
+}
+
+//INGRESAR LOS ELEMENTOS A LA COLA 
+void press(Cola *q, char *dato){
+
+	q->xyz[q->ultimo]=*dato;
+ 	q->ultimo++;
+ 	
+}
+
+//FUNCION PARA ELIMINACION DE PERSONAS (LA PRIMERA QUE ESTA EN LA COLA)
+string eliminar(Cola *cola){
+	
+	int i;
+	string x;
+	
+	x=cola->xyz[0];
+	
+	for(i=0;i<cola->ultimo-1;i++)
+		cola->xyz[i]=cola->xyz[i+1];
+		
+	cola->ultimo--;
+	
+	return(x);
+	
+}
+
+//MOSTRAR POR PANTALLA LOS INGRESADOS (SU INICIAL)
+
+void mostrar(struct Cola* q){
+	
+	struct Cola p=*q;
+    int i;
+    
+	if(!empty(p)){
+    	
+	    cout<<"\n INICIAL DE PERSONAS EN COLA \n";
+	    for(i=0;i<q->ultimo;i++)
+	    	cout<<q->xyz<<endl;
+	}
+	else
+		printf("\n \t COLA SIN NINGUNA PERSONA.\n");
+		
+}
+
+
+int main(int argc, char** argv) {
+	
+	int option;
+	int crf;
+	char *ID;
+	struct Cola* cola;
+	
+	//MENU QUE SE MOSTRARA POR PANTALLA AL USUARIO
+	
+	do{
+		system("cls");
+		
+		system("cls");
+		
+		cout<<"\t \t \t \t \t \t--SERIE 3--" << endl;
+		
+		cout<<"\t \t \t \t      COLAS UTILIZANDO QUEUE AND ENQUEUE" << endl;
+		cout<<"\t \t \t \t \t BRYAN MARTINEZ 0909-20-6903 \n" << endl;
+		cout<<"\t \t Instrucciones:Al ingresar un nombre en la cola conforme van llegando este " << endl;
+		cout<<"\t \t se vera por su INICIAL, puede notarlo en MOSTRAR COLA, luego si se desea " << endl;
+		cout<<"\t \t utilizar FUNCION ENQUEUE esta quitara la primer inicial que se coloco en la  " << endl;
+		cout<<"\t \t utilizando ese metodo, el primero que entro es el primero en irse. Si se " << endl;
+		cout<<"\t \t desea puede seguir agregando mas en OPCION 2, y notara que se iran integrando" << endl;
+		cout<<"\t \t a la cola, segun el tamaño de la cola que se definio. " << endl;
+		
+		
+		cout<<"\n------ MENU DE OPCIONES------"<<endl;
+		
+
+		cout<<"\n1-ESTABLECER TAMAÑO DEL ARRAY"<<endl;
+		cout<<"2-FUNCION QUEUE"<<endl;
+		cout<<"3-FUNCION ENQUEUE"<<endl;
+		cout<<"4-MOSTRAR COLA"<<endl;
+		cout<<"5-FINALIZAR";
+		cout<<"\n\tOPCION A ESCOGER: ";
+		cin>>option;
+		
+		switch(option){
+			
+			
+				//Case 1 sera para que dinamicamente el usuario pueda ingresar el
+				//Tamaño el Array, indicando de cuantas personas va a hacer la cola ha realizar.
+				
+			case 1: cout<<"\n\tCUANTAS PERSONAS INGRESARAN A LA COLA: ";
+					cin>>crf;
+					cola=creat(crf); //Creamos la cola
+				break;
+				
+				
+			//Case 2 para poder ingresar el nommbre (inicial) de la persona que ha ingresado a la fila 
+			//Utilizando la funcion Queue
+			
+			case 2:	cout<<"\n\tNOMBRE A INGRESAR: ";
+			ID = (char*)malloc(sizeof(char)); //Creamos un arreglo que almacenara los datos
+					cin>>ID;
+					press(cola, ID);
+					break;
+			
+			//Case 3 para eliminar personas ingresadas a la cola con la funcion Enqueue 
+			//La primera persona que se ingreso es la primera que va a salir de la cola
+			
+			case 3:	cout<<"\n\t !!!PERSONA ELIMINADA DE LA COLA!!!";
+					eliminar(cola);
+					system("pause");
+					
+					break;
+			
+			//Case 4 para poder visualizar por pantalla las personas ingresas a la cola
+			
+			case 4:	cout<<"\n\t    COLA DE PERSONAS INGRESADAS (SU INICIAL): ";
+					mostrar(cola);
+					system("pause");
+					break;
+			
+			case 5:	break;
+					//Parte de arriba case 5 para finalizar el programa
+					
+					//Parte de abajo default si en dado caso es una opcion que no esta en el programa
+					//Este mostratara por pantalla lo que tenemos el cout, diciendo opcion incorrecta
+			
+			default:
+						cout<<"\t \t \t :::::::::::::::::::::::::::::::::::::::::::::::::::::::::"<<endl;
+						cout<<" \t \t \t - - OPCION INCORRECTA, POR FAVOR VUELVA A INTENTARLO - -"<< endl;
+						cout<<"\t \t \t \t UTILIZAR SOLAMENTE OPCIONES DEL 1 AL 5."<< endl;	
+						cout<<"\t \t \t :::::::::::::::::::::::::::::::::::::::::::::::::::::::::"<<endl;
+						
+						system("pause");
+						system("cls");		
+
+						
+	
+					
+		}
+		
+	}while(option!=5);
+	
+	return 0;
+}
+
+//BRYAN ALEXANDER MARTINEZ GUZMAN 0909-20-6903
+//PROGRAMACION I - SERIE III - COLA - Queue y Enqueue
